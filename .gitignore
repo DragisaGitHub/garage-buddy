@@ -1,0 +1,8 @@
+/.idea
+/target
+/backend/target
+/frontend/dist
+logs/
+*.log
+node_modules/
+/.env
