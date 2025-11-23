@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${POSTGRES_DB:garage_buddy}}
+    username: ${SPRING_DATASOURCE_USERNAME:${POSTGRES_USER:postgres}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${POSTGRES_PASSWORD:password}}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: WARN
+    root: INFO
+
+garagebuddy:
+  retention:
+    logsDays: 90
+  privacy:
+    hardDeleteOnAccountRemoval: false
+
+garagebuddy:
+  jwt:
+    secret: ${GARAGEBUDDY_JWT_SECRET:change-me-very-secret-and-long-enough-for-hs256}
+    validityMs: ${GARAGEBUDDY_JWT_VALIDITY_MS:86400000}
+
+spring.profiles.active: dev
