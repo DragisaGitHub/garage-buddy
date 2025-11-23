@@ -1,50 +1,128 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Garage Buddy Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Simplicity-First Architecture
+The system must remain simple, modular, and maintainable. Every added component must have a clear purpose and measurable value. Avoid unnecessary abstractions, premature optimization, and overengineering.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Modular Service Design
+Each major feature (cars, service events, recommendations, reminders, exports) must exist as an isolated service/module.  
+Modules:
+- Must be independently testable  
+- Must have clear input/output boundaries  
+- Must communicate through explicit contracts  
+- Must not share state implicitly
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Test-First Development (Non-Negotiable)
+Development follows strict TDD:
+1. Write tests  
+2. Validate tests with user/feature spec  
+3. Confirm tests initially fail  
+4. Implement functionality  
+5. Refactor without breaking tests  
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+All features must include:
+- Unit tests  
+- Contract tests (where applicable)  
+- Integration tests for multi-module flows  
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### IV. CLI/API Interface Contract
+Every service must expose functionality via:
+- Python functions,
+- and/or API (when backend is added),
+- and/or CLI entrypoints (during early prototype phase).
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+All interactions must support:
+- JSON input/output for machine use  
+- Human-readable text for debugging  
+- stdout for output, stderr for errors  
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### V. Observability & Logging
+All modules must include:
+- Structured logging
+- Context-rich debug logs for errors
+- Minimal noise in production mode  
+- No silent failures  
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Error handling must be explicit and predictable.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### VI. Versioning & Backward Compatibility
+Garage Buddy follows:
+- **SemVer**: MAJOR.MINOR.PATCH  
+- Breaking changes require:
+  - Migration plan  
+  - Version bump  
+  - Update to contracts & tests  
+
+Modules must avoid breaking interfaces without justification.
+
+### VII. Performance & Reliability
+The system must remain responsive and stable:
+- CRUD operations < 150ms  
+- Dashboard rendering < 300ms  
+- Must support ≥ 10,000 users (future goal)  
+- Must handle missing/incorrect data safely  
+
+No blocking I/O inside core logic (use async when needed).
+
+## Security & Data Requirements
+
+### Authentication
+Garage Buddy must support:
+- Email/password authentication (initial)
+- Expandable to OAuth2 in future
+
+User data access must be restricted to the owning user (multi-tenant safety rule).
+
+### Data Retention
+Data retention rules:
+- User data must remain until the user explicitly deletes the account
+- Deleted cars must preserve their service history for export (unless user requests hard delete)
+- Logs retained for 30 days max
+
+### Privacy
+- No sharing of user data  
+- All sensitive fields must be validated and sanitized  
+- VIN must be unique per user  
+- Registration dates must be validated  
+
+## Development Workflow & Quality Gates
+
+### Code Workflow
+Each feature branch must follow:
+1. Feature spec
+2. Research notes
+3. Data model design
+4. Contracts
+5. Implementation
+6. Tests
+7. Documentation
+
+### Pull Request Quality Gates
+A PR cannot be merged unless:
+- All tests pass  
+- No new TODOs or placeholders  
+- Constitution rules are satisfied  
+- No warnings in linting  
+- Coverage ≥ 80% for new code  
+
+### Complexity Control
+Any new abstraction (repository, service layer extension, helper module) must be justified in the Complexity Tracking table.
+
+Breaking this rule requires:
+- Written justification  
+- Approval by maintainer (you)
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+The Constitution supersedes all project practices.  
+Any amendment requires:
+- Update to this file  
+- Version bump  
+- Summary of the change  
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Speckit must validate compliance before new features are planned.
+
+**Version**: 1.0.0  
+**Ratified**: 2025-11-23  
+**Last Amended**: 2025-11-23
