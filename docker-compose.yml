@@ -31,6 +31,13 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_MAIL_HOST=${SPRING_MAIL_HOST}
+      - SPRING_MAIL_PORT=${SPRING_MAIL_PORT}
+      - SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
+      - GARAGEBUDDY_JWT_SECRET=${GARAGEBUDDY_JWT_SECRET}
+      - GARAGEBUDDY_REMINDER_CRON=${GARAGEBUDDY_REMINDER_CRON}
+      - GARAGEBUDDY_EMAIL_ENABLED=${GARAGEBUDDY_EMAIL_ENABLED:false}
     depends_on:
       postgres:
         condition: service_healthy
@@ -44,7 +51,7 @@ services:
     ports:
       - "3000:80"
     environment:
-      - VITE_API_BASE_URL=http://localhost:8080
+      - VITE_API_URL=http://backend:8080/api
     depends_on:
       - backend
     networks:

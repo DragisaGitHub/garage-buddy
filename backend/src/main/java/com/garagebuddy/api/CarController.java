@@ -4,6 +4,7 @@ import com.garagebuddy.application.CarService;
 import com.garagebuddy.domain.Car;
 import com.garagebuddy.domain.UserRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cars")
+@PreAuthorize("isAuthenticated()")
 public class CarController {
     private final CarService carService;
     private final UserRepository userRepository;
