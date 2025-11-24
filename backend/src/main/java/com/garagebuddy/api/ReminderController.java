@@ -5,6 +5,7 @@ import com.garagebuddy.domain.Reminder;
 import com.garagebuddy.domain.User;
 import com.garagebuddy.domain.UserRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reminders")
+@PreAuthorize("isAuthenticated()")
 public class ReminderController {
     private final ReminderService reminderService;
     private final UserRepository userRepository;

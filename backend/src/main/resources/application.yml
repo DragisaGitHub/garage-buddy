@@ -10,9 +10,26 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.mailtrap.io}
+    port: ${SPRING_MAIL_PORT:2525}
+    username: ${SPRING_MAIL_USERNAME:}
+    password: ${SPRING_MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
 
 logging:
   level:
@@ -24,10 +41,13 @@ garagebuddy:
     logsDays: 90
   privacy:
     hardDeleteOnAccountRemoval: false
-
-garagebuddy:
   jwt:
     secret: ${GARAGEBUDDY_JWT_SECRET:change-me-very-secret-and-long-enough-for-hs256}
     validityMs: ${GARAGEBUDDY_JWT_VALIDITY_MS:86400000}
+  reminder:
+    cron: ${GARAGEBUDDY_REMINDER_CRON:0 0 7 * * ?}
+  notifications:
+    email:
+      enabled: ${GARAGEBUDDY_EMAIL_ENABLED:false}
 
 spring.profiles.active: dev

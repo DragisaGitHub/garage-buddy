@@ -5,15 +5,21 @@
     <file>logs/garage-buddy.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>logs/garage-buddy.%d{yyyy-MM-dd}.log</fileNamePattern>
-      <maxHistory>30</maxHistory>
+      <maxHistory>90</maxHistory> <!-- Constitution: log retention 90 days -->
     </rollingPolicy>
     <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
 
+  <!-- CONSTITUTION COMPLIANCE: NEVER log passwords, tokens, email addresses, or PII -->
+  <!-- Developers must avoid logging sensitive data at all log levels -->
+
   <root level="INFO">
     <appender-ref ref="CONSOLE"/>
     <appender-ref ref="FILE"/>
   </root>
+  
+  <logger name="org.springframework.security" level="WARN"/>
+  <logger name="com.garagebuddy" level="INFO"/>
 </configuration>
